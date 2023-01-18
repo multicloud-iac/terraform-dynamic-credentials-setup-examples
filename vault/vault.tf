@@ -64,5 +64,31 @@ path "auth/token/revoke-self" {
 path "secret/*" {
   capabilities = ["read"]
 }
+
+# Get secrets from KV engine
+path "${vault_kv_secret_v2.taco.path}" {
+  capabilities = ["list","read"]
+}
 EOT
+}
+
+# Create a KV secrets engine
+resource "vault_mount" "taco" {
+  path        = "tacos-tfc"
+  type        = "kv"
+  options     = { version = "2" }
+  description = "KV mount for TFC OIDC demo"
+}
+
+# Create a secret in the KV engine
+
+resource "vault_kv_secret_v2" "taco" {
+  mount = vault_mount.taco.path
+  name  = "sauce_recipe"
+  data_json = jsonencode(
+    {
+      pepper = "Aji Limon",
+      juice  = "Mango"
+    }
+  )
 }
