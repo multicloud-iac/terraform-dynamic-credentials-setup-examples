@@ -49,17 +49,18 @@ resource "tfe_variable" "tfc_vault_role" {
   description = "The Vault role runs will use to authenticate."
 }
 
+resource "tfe_variable" "tfc_vault_namespace" {
+  workspace_id = tfe_workspace.my_workspace.id
+
+  key      = "TFC_VAULT_NAMESPACE"
+  value    = "admin"
+  category = "env"
+
+  description = "The Vault namespace to use, if not using the default"
+}
+
 # The following variables are optional; uncomment the ones you need!
 
-# resource "tfe_variable" "tfc_vault_namespace" {
-#   workspace_id = tfe_workspace.my_workspace.id
-
-#   key      = "TFC_VAULT_NAMESPACE"
-#   value    = "my-vault-namespace"
-#   category = "env"
-
-#   description = "The Vault namespace to use, if not using the default"
-# }
 
 # resource "tfe_variable" "tfc_vault_auth_path" {
 #   workspace_id = tfe_workspace.my_workspace.id
